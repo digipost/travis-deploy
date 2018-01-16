@@ -2,7 +2,7 @@ betaSuffix="beta"
 masterSuffix="master"
 if [[ $TRAVIS_PULL_REQUEST != false ]];then
 	echo "This is a pull-request build, skipping deploy."
-if [[ $TRAVIS_BRANCH == $betaSuffix ]] || [[ $TRAVIS_BRANCH == $masterSuffix ]];then
+elif [[ $TRAVIS_BRANCH == $betaSuffix ]] || [[ $TRAVIS_BRANCH == $masterSuffix ]];then
 	echo "Is on beta or master branch, deploying Nuget package ..."
 	mono nuget.exe push *.nupkg -Verbosity detailed -ApiKey $NUGET_API_KEY -Source https://api.nuget.org/v3/index.json
 else

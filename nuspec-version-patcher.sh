@@ -5,6 +5,8 @@
 #    ending up with '4.3.0.'
 nuspecFile=$1
 
+echo "Took nuspec file name'${nuspecFile}' as input."
+
 assemblyVersionWithoutBuildNumber=$(mono ./Zero29.1.0.0/tools/Zero29.exe -l | head -n 1 | egrep -o '([0-9].){3}')
 
 echo "Assembly version found with version patcher is '${assemblyVersionWithoutBuildNumber}' (build number excluded)."

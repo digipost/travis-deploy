@@ -5,12 +5,12 @@
 #    ending up with '4.3.0.'
 assemblyVersionWithoutBuildNumber=$(mono ./Zero29.1.0.0/tools/Zero29.exe -l | head -n 1 | egrep -o '([0-9].){3}')
 
+echo "Assembly version found with version patcher is '${assemblyVersionWithoutBuildNumber}' (build number excluded)."
+
 if [[ ${#assemblyVersionWithoutBuildNumber} -eq "0" ]];then
 	echo "Did not find assembly version with version patcher. Please check that patcher is installed correctly and that it can find the assembly version files. Exiting!" >&2 #Echo and send to stderr
 	exit 1 # terminate and indicate error
 fi
-
-echo "Assembly version found with version patcher is '${assemblyVersionWithoutBuildNumber}' (build number excluded)."
 
 assemblyVersion="${assemblyVersionWithoutBuildNumber}${TRAVIS_BUILD_NUMBER}"
 

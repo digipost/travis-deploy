@@ -27,5 +27,5 @@ fi
 echo "Patching version in .nuspec to '${assemblyVersion}'!"
 
 #Patch assembly version number in .nuspec
-sed -i.originalfilebackup "s/VERSION_PLACEHOLDER/${assemblyVersion}/g" nuspecFile
+sed -i.originalfilebackup "s/VERSION_PLACEHOLDER/${assemblyVersion}/g" $nuspecFile
 

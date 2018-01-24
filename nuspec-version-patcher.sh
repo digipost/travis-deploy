@@ -16,7 +16,11 @@ if [[ ${#assemblyVersionWithoutBuildNumber} -eq "0" ]];then
 	exit 1 # terminate and indicate error
 fi
 
-assemblyVersion="${assemblyVersionWithoutBuildNumber}${TRAVIS_BUILD_NUMBER}"
+if [[ ${TRAVIS_BRANCH} == "master" ]];then
+	assemblyVersion=${assemblyVersion%?} # Remove last char (.) from string, as master branch will not need build number.
+else	
+	assemblyVersion="${assemblyVersionWithoutBuildNumber}${TRAVIS_BUILD_NUMBER}"
+fi
 
 betaSuffix="beta"
 if [[ ${TRAVIS_BRANCH} == $betaSuffix ]];then

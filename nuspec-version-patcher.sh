@@ -1,26 +1,35 @@
 #Find current assembly version
 # 1: Zero29 lists versions of all AssemblyInfo-files. There is two.
-# 2: Take the first one
-# 3: Grep with regex to retrieve the assembly version number (ex. '4.3.0.0') at end of line and excluding build number,
-#    ending up with '4.3.0.'
+# 2: Take the first line
+# 3: Grep with regex to retrieve the assembly version number
+# 4: Add -beta suffix if applicable
+# 5: Patch the .nuspec file.
 nuspecFile=$1
+
+TRAVIS_BUILD_NUMBER=22
+
+function stop_if_no_assembly_version_found {
+	if [[ ${#lineWithVersionNumber} -eq "0" ]];then
+		echo "Did not find assembly version with version patcher. Please check that patcher is installed correctly and that it can find the assembly version files. Exiting!" >&2 #Echo and send to stderr
+		exit 1 # terminate and indicate error
+	fi
+}
 
 echo "Took nuspec file name'${nuspecFile}' as input."
 
-assemblyVersionWithoutBuildNumber=$(mono ./Zero29.1.0.0/tools/Zero29.exe -l | head -n 1 | egrep -o '([0-9].){3}')
-
-echo "Assembly version found with version patcher is '${assemblyVersionWithoutBuildNumber}' (build number excluded)."
-
-if [[ ${#assemblyVersionWithoutBuildNumber} -eq "0" ]];then
-	echo "Did not find assembly version with version patcher. Please check that patcher is installed correctly and that it can find the assembly version files. Exiting!" >&2 #Echo and send to stderr
-	exit 1 # terminate and indicate error
-fi
+lineWithVersionNumber=$(mono ./Zero29.1.0.0/tools/Zero29.exe -l | head -n 1)
 
 if [[ ${TRAVIS_BRANCH} == "master" ]];then
-	assemblyVersion=${assemblyVersion%?} # Remove last char (.) from string, as master branch will not need build number.
+ 	fullAssemblyVersion=$(echo $lineWithVersionNumber | egrep -o '([0-9].){3}([0-9])')  # Ex. 4.0.0.0 (Keep all parts if on master)
+ 	stop_if_no_assembly_version_found
+	echo "Is on master branch and found full version number (Major.Minor.Patch.Build) to be ${fullAssemblyVersion}."
 else	
-	assemblyVersion="${assemblyVersionWithoutBuildNumber}${TRAVIS_BUILD_NUMBER}"
+ 	assemblyVersion=$(echo $lineWithVersionNumber | egrep -o '([0-9].){2}([0-9])') 		# Ex. 4.0.0   (Remove build number and replace it with travis build number)
+	stop_if_no_assembly_version_found
+	fullAssemblyVersion="${assemblyVersion}.${TRAVIS_BUILD_NUMBER}"
+	echo "Is not on master branch and parsed version without build number (Major.Minor.Patch) to be ${assemblyVersion}, and appended TRAVIS_BUILD_NUMBER=$TRAVIS_BUILD_NUMBER, resulting in $fullAssemblyVersion. "
 fi
+
 
 betaSuffix="beta"
 if [[ ${TRAVIS_BRANCH} == $betaSuffix ]];then

@@ -1,9 +1,8 @@
 #Find current assembly version
-# 1: Zero29 lists versions of all AssemblyInfo-files. There is two.
-# 2: Take the first line
-# 3: Grep with regex to retrieve the assembly version number
-# 4: Add -beta suffix if applicable
-# 5: Patch the .nuspec file.
+# 1: Fetch version line from AssemblyInfo.cs.
+# 2: Grep with regex to retrieve the assembly version number
+# 3: Add -beta suffix if applicable
+# 4: Patch the .nuspec file.
 nuspecFile=$1
 
 function stop_if_no_assembly_version_found {
@@ -13,9 +12,11 @@ function stop_if_no_assembly_version_found {
 	fi
 }
 
-echo "Took nuspec file name'${nuspecFile}' as input."
+echo "Took nuspec file name'${nuspecFile}' as input. Starting patching of version ..."
 
-lineWithVersionNumber=$(mono ./Zero29.1.0.0/tools/Zero29.exe -l | head -n 1)
+lineWithVersionNumber=$(cat SolutionItems/AssemblyInfo.cs | grep AssemblyVersion)
+
+echo "Fetched line with current base version from AssemblyInfo.cs: '" + $lineWithVersionNumber + "'";
 
 if [[ ${TRAVIS_BRANCH} == "master" ]];then
  	fullAssemblyVersion=$(echo $lineWithVersionNumber | egrep -o '([0-9].){3}([0-9])')  # Ex. 4.0.0.0 (Keep all parts if on master)

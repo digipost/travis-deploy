@@ -36,7 +36,7 @@ elif [[ ${currentBranch} == "beta" ]];then
  Appended build number=$buildNumber and result is $fullAssemblyVersion. "
 else
 	echo "Is not on beta or master branch. No need to patch .nuspec file!"
+	exit 0
 fi
 
-#Patch assembly version number in .nuspec
 sed -i .originalfilebackup "s/VERSION_PLACEHOLDER/${fullAssemblyVersion}/g" $nuspecFile

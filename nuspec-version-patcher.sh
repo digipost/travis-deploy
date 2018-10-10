@@ -39,4 +39,4 @@ else
 	exit 0
 fi
 
-sed -i .originalfilebackup "s/VERSION_PLACEHOLDER/${fullAssemblyVersion}/g" $nuspecFile
+sed -i "s/VERSION_PLACEHOLDER/${fullAssemblyVersion}/g" $nuspecFile

@@ -5,11 +5,11 @@
 # 3: Add -beta suffix if applicable
 # 4: Patch the .nuspec file.
 
-buildProperties=$1
+buildPropertiesFile=$1
 currentBranch=$2
 buildNumber=$3
 
-echo "Starting to patch version in '${buildProperties}'. Is on branch '${currentBranch}' and build number is '${buildNumber}'"
+echo "Starting to patch version in '${buildPropertiesFile}'. Is on branch '${currentBranch}' and build number is '${buildNumber}'"
 
 function stop_if_no_assembly_version_found {
 	if [[ ${#lineWithVersionNumber} -eq "0" ]];then
@@ -18,7 +18,7 @@ function stop_if_no_assembly_version_found {
 	fi
 }
 
-lineWithVersionNumber=$(cat ${buildProperties} | grep Version)
+lineWithVersionNumber=$(cat ${buildPropertiesFile} | grep Version)
 
 echo "Fetched line with current base version from AssemblyInfo.cs: ' ${lineWithVersionNumber} '";
 

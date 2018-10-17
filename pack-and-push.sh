@@ -6,8 +6,13 @@ projectRoot=$3
 projectDirectories=$4
 
 function fail_fast_if_one_fails(){
-	set -e #Sets fast fail if one of the following fails 
+	set -e  
 }
+
+function unset_fail_fast_if_one_fails(){
+	set +e  
+}
+
 
 function pack(){
     projectName=$1
@@ -35,6 +40,8 @@ elif [[ $currentBranch == "beta" ]] || [[ $currentBranch == "master" ]];then
     do
         pack $project
     done
+    
+    unset_fail_fast_if_one_fails    
     
     for entry in "$projectRoot/packed"/*
     do

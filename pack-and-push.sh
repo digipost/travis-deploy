@@ -28,7 +28,7 @@ function push(){
 
 echo "Will try to push nuget packages for branch '$currentBranch' with api-key '$apiKey' and root directory '$projectRoot' and project directories: '$projectDirectories'".
 
-if [[ false != false ]];then # TODO: Dette må settes til $TRAVIS_PULL_REQUEST != false når ferdig med hacking
+if [[ $TRAVIS_PULL_REQUEST != false ]];then
 	echo "This is a pull-request build, skipping pack and deploy."
 elif [[ $currentBranch == "beta" ]] || [[ $currentBranch == "master" ]];then
 	echo "Is on beta or master branch, packing and deploying Nuget package ..."

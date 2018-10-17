@@ -1,9 +1,9 @@
 #!/usr/bin/env bash
 
-currentBranch=$2
-apiKey=$3
-projectRoot=$4
-projectDirectories=$5
+currentBranch=$1
+apiKey=$2
+projectRoot=$3
+projectDirectories=$4
 
 function fail_fast_if_one_fails(){
 	set -e #Sets fast fail if one of the following fails 

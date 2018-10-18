@@ -50,4 +50,4 @@ elif [[ $currentBranch == "beta" ]] || [[ $currentBranch == "master" ]];then
 	
 else
 	echo "Is not on beta or master branch, skipping pack and deploy."
-fi      
+fi

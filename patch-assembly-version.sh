@@ -1,9 +1,4 @@
 #!/usr/bin/env bash
-#Find current assembly version
-# 1: Fetch version line from AssemblyInfo.cs.
-# 2: Grep with regex to retrieve the assembly version number
-# 3: Add -beta suffix if applicable
-# 4: Patch the .nuspec file.
 
 buildPropertiesFile=$1
 currentBranch=$2

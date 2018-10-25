@@ -37,4 +37,10 @@ fi
 sed -i.backup "s/$assemblyVersion/$fullAssemblyVersion/g" $buildPropertiesFile
 rm -r *.backup
 
+echo "======================================================================"
+echo " Patched build properties file: "
+echo "======================================================================"
+
+cat $buildPropertiesFile
+
 echo "Version patched successfully."

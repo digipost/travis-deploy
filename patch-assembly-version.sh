@@ -38,7 +38,7 @@ if [[ ${currentBranch} == "master" ]];then
  	assemblyVersion=${baseVersionFourTuple} 
  	nugetVersion=${assemblyVersion}
  	
- 	stop_if_no_assembly_version_found ${assemblyVersion}
+# 	stop_if_no_assembly_version_found ${assemblyVersion}
  	
  	print_versions ${baseVersionFourTuple} ${assemblyVersion} ${nugetVersion}
  	
@@ -49,7 +49,7 @@ elif [[ ${currentBranch} == "beta" ]];then
 	assemblyVersion="${baseVersionThreeTuple}.${buildNumber}"
 	nugetVersion="${baseVersionThreeTuple}.${buildNumber}-beta"
 	
-	stop_if_no_assembly_version_found $assemblyVersion
+#	stop_if_no_assembly_version_found $assemblyVersion
 
  	print_versions ${baseVersionFourTuple} ${assemblyVersion} ${nugetVersion}
 

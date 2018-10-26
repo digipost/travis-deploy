@@ -58,13 +58,22 @@ else
 	exit 0
 fi
 
-sed -i.backup "s/\<Version\>$baseVersionFourTuple\<\/Version\>/\<Version\>$nugetVersion\<\/Version\>/g" ${buildPropertiesFile}
-sed -i.backup "s/\<AssemblyVersion\>$baseVersionFourTuple\<\/AssemblyVersion\>/\<AssemblyVersion\>$assemblyVersion\<\/AssemblyVersion\>/g" ${buildPropertiesFile}
-rm -r *.backup
+if [ -z "$TRAVIS_BRANCH" ] # The two following cases are only different by gsed vs sed, please edit both at the same time
+then 
+    echo "Is not on build server. Running replacing version in '$buildPropertiesFile with command 'gsed' if available ..."
+    command -v gsed >/dev/null 2>&1 || { echo >&2 "I require command 'gsed' but it's not installed. Please run 'brew install gnu-sed' for local use. We do this because sed on MacOS is crap."; exit 1; }
+    
+    gsed -i "s/<Version>$baseVersionFourTuple<\/Version>/\<Version>$nugetVersion<\/Version>/g" ${buildPropertiesFile}
+    gsed -i "s/<AssemblyVersion>$baseVersionFourTuple<\/AssemblyVersion>/\<AssemblyVersion>$assemblyVersion<\/AssemblyVersion>/g" ${buildPropertiesFile}
+else
+    echo "Is on build server. Running replacing version in '$buildPropertiesFile with command 'sed' ..."
+    
+    sed -i "s/<Version>$baseVersionFourTuple<\/Version>/\<Version>$nugetVersion<\/Version>/g" ${buildPropertiesFile}
+    sed -i "s/<AssemblyVersion>$baseVersionFourTuple<\/AssemblyVersion>/\<AssemblyVersion>$assemblyVersion<\/AssemblyVersion>/g" ${buildPropertiesFile}
+fi
 
 echo "Version patched successfully."
 
 echo " Patched build properties file: "
 
-cat $buildPropertiesFile
-
+cat ${buildPropertiesFile}

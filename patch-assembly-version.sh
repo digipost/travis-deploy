@@ -51,7 +51,7 @@ elif [[ ${currentBranch} == "beta" ]];then
 	
 #	stop_if_no_assembly_version_found $assemblyVersion
 
- 	print_versions ${baseVersionFourTuple} ${assemblyVersion} ${nugetVersion}
+ 	print_versions ${baseVersionThreeTuple} ${assemblyVersion} ${nugetVersion}
 
 else
 	echo "Is not on beta or master branch. No need to patch $buildPropertiesFile!"

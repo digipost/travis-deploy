@@ -17,7 +17,7 @@ function stop_if_no_assembly_version_found {
 function print_versions {
     assemblyVersion=$1
     nugetVersion=$2
-
+    
     echo "======================================================================"
 	echo " Assembly Version/.dll (AssemblyVersion): $assemblyVersion"
 	echo " Nuget version (Version): $nugetVersion"
@@ -34,10 +34,11 @@ then
     
     print_versions ${baseVersionFourTuple} ${nugetVersion}
 else
-    baseVersionFourTuple=$(echo ${tag} | egrep -o '([0-9].){3}([0-9])')
-    nugetVersion=${tag}
+    echo "Found tag ${tag}. Parsing ..."
+    baseVersionFourTuple="$(echo ${tag} | grep -E -o '[0-9]+(\.[0-9]+){0,3}' | head -1)"
+    nugetVersion="${tag}"
 
-    print_versions ${baseVersionFourTuple} ${nugetVersion}
+    print_versions "${baseVersionFourTuple}" "${nugetVersion}"
 fi
 
 if [ -z "$TRAVIS_BRANCH" ] # The two following cases are only different by gsed vs sed, please edit both at the same time

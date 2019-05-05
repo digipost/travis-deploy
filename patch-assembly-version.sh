@@ -35,7 +35,7 @@ then
     print_versions "${baseVersionFourTuple}" "${nugetVersion}"
 else
     echo "Found tag '${tag}'. Parsing ..."
-    baseVersionFourTuple="$(echo ${tag} | grep -E -o '[0-9]+(\.[0-9]+){0,3}' | head -1)"
+    baseVersionFourTuple="$(echo ${tag} | grep --extended-regexp --only-matching '[0-9]+(\.[0-9]+){0,3}' | head -1)"
     nugetVersion="${tag}"
 
     print_versions "${baseVersionFourTuple}" "${nugetVersion}"

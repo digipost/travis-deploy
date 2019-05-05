@@ -32,9 +32,9 @@ then
     baseVersionFourTuple=1.0.0.0
     nugetVersion=1.0.0.0-norelease 
     
-    print_versions ${baseVersionFourTuple} ${nugetVersion}
+    print_versions "${baseVersionFourTuple}" "${nugetVersion}"
 else
-    echo "Found tag ${tag}. Parsing ..."
+    echo "Found tag '${tag}'. Parsing ..."
     baseVersionFourTuple="$(echo ${tag} | grep -E -o '[0-9]+(\.[0-9]+){0,3}' | head -1)"
     nugetVersion="${tag}"
 

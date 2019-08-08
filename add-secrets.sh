@@ -7,4 +7,4 @@ cd $rootProject
 
 # Add certificate info to user-secrets
 dotnet user-secrets set Certificate:Path:Absolute "${TRAVIS_BUILD_DIR}/$certFileName"
-dotnet user-secrets set Certificate:Password $BRING_CERTIFICATE_PASSWORD >/dev/null 2>&1
+dotnet user-secrets set Certificate:Password $CERTIFICATE_PASSWORD >/dev/null 2>&1
